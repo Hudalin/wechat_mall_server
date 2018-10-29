@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jcg.mapper.AdverMapper">
+	<select id="getAdvertByType" parameterType="map" resultType="Adver">
+		SELECT * FROM mall_adver WHERE type=#{type} AND isExist="1" limit 0,#{maxSize};
+	</select>
+</mapper>

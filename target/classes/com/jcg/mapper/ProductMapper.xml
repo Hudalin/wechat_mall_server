@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jcg.mapper.ProductMapper">
+	<select id="getHotList" parameterType="map" resultType="Product">
+		SELECT * FROM mall_product WHERE isHot='1' AND cid=#{categoryid} AND isExist="1" ORDER BY saleTime DESC limit 0,#{size};
+	</select>
+	<select id="getNewList" parameterType="map" resultType="Product">
+		SELECT * FROM mall_product WHERE cid=#{categoryid} AND isExist="1" ORDER BY saleTime DESC limit 0,#{size};
+	</select>
+	<select id="getProductById" parameterType="string" resultMap="productInfo">
+		SELECT * FROM mall_product p LEFT JOIN mall_productinfo i ON p.pid=i.pid WHERE p.isExist="1" AND p.pid=#{pid}
+	</select>
+	<resultMap type="Product" id="productInfo">
+		<id property="pid" column="pid"/>
+		<result property="pname" column="pname"/>
+		<result property="price" column="price"/>
+		<result property="imageUrl" column="imageUrl"/>
+		<association property="productInfo" javaType="ProductInfo">
+			<result property="specification" column="specification"/>
+			<result property="origin" column="origin"/>
+			<result property="sendPlace" column="sendPlace"/>
+			<result property="productIntroduce" column="productIntroduce"/>
+		</association>
+	</resultMap>
+</mapper>

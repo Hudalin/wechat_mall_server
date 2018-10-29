@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jcg.mapper.AddressMapper">
+	<select id="getAddressListByAcc" parameterType="string" resultType="Address">
+		SELECT mua.address_id,mua.address_name,mua.address_phone,mua.address_province,mua.address_city,mua.address_district,mua.address_detail FROM mall_user_address mua LEFT JOIN mall_user mu ON mua.address_uid=mu.uid WHERE mu.account=#{account}
+	</select>
+	
+	<select id="getAddressById" parameterType="int" resultType="Address">
+		SELECT address_id,address_name,address_phone,address_province,address_city,address_district,address_detail FROM mall_user_address WHERE address_id=#{address_id}
+	</select>
+	
+	<update id="updateAddress" parameterType="Address">
+		UPDATE mall_user_address 
+		<set>
+			<if test="address_name != null">
+				address_name=#{address_name},
+			</if>
+			<if test="address_phone != null">
+				address_phone=#{address_phone},
+			</if>
+			<if test="address_province != null">
+				address_province=#{address_province},
+			</if>
+			<if test="address_city != null">
+				address_city=#{address_city},
+			</if>
+			<if test="address_district != null">
+				address_district=#{address_district},
+			</if>
+			<if test="address_detail != null">
+				address_detail=#{address_detail},
+			</if>
+			update_time=NOW()
+		</set>
+		WHERE address_id=#{address_id}
+	</update>
+	
+	<delete id="deleteAddressById" parameterType="int">
+		DELETE FROM mall_user_address WHERE address_id=#{address_id}
+	</delete>
+	
+	<insert id="addAddress" parameterType="Address">
+		INSERT INTO mall_user_address(address_uid,address_name,address_phone,address_province,address_city,address_district,address_detail,create_time) VALUES(#{user.uid},#{address_name},#{address_phone},#{address_province},#{address_city},#{address_district},#{address_detail},NOW())
+	</insert>
+</mapper>
